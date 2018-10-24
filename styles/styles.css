@@ -1,0 +1,10 @@
+#animals-form{
+    float: right;
+    padding-right: 220px;
+    padding-top: 80px;
+    line-height: 50px;
+}
+
+#animals-input{
+    width: 60%;
+}
