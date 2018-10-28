@@ -24,8 +24,11 @@
 // displayAnimalInfo function re-renders the HTML to display the appropriate content
     function displayAnimalInfo() {
     var animal = $(this).attr("data-name");
-    var queryURL = $.get("https://api.giphy.com/v1/gifs/search?api_key=uEH8xhFmcb0anU7UDFSx7jwSAdmba81V&q=" + animal);
-    
+    var queryURL = $.get("http://api.giphy.com/v1/gifs/search?q="+ animal + "&api_key=uEH8xhFmcb0anU7UDFSx7jwSAdmba81V&limit=5");
+    animal.done(function(data) { 
+        console.log("success got data", data); 
+    });
+
     //ajax call to grab 10 static, non-animated gif images from GIPHY API & place on page
     $.ajax({
         url: queryURL,
@@ -33,10 +36,8 @@
     }).then(function(response) {
         var giphy = $("<img>")
         giphy.attr("src=", response.data[0].images.original_still)
-    });
-}
-
-
+        });
+ 
     // Function when animal button is clicked
     $("#animal-button").on("click", function(event) {
         event.preventDefault();
@@ -57,7 +58,7 @@
 
     // Calling the renderButtons function to display the intial buttons
         renderButtons();
-    
+    }    
 // 4. When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
 
 // 5. Under every gif, display its rating (PG, G, so on).This data is provided by the GIPHY API. Only once you get images displaying with button presses should you move on to the next step.
