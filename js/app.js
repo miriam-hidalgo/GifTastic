@@ -23,11 +23,9 @@
 
 // displayAnimalInfo function re-renders the HTML to display the appropriate content
     function displayAnimalInfo() {
+    
     var animal = $(this).attr("data-name");
-    var queryURL = $.get("http://api.giphy.com/v1/gifs/search?q="+ animal + "&api_key=uEH8xhFmcb0anU7UDFSx7jwSAdmba81V&limit=5");
-    animal.done(function(data) { 
-        console.log("success got data", data); 
-    });
+    var queryURL = $.get("http://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=uEH8xhFmcb0anU7UDFSx7jwSAdmba81V&limit=10");
 
     //ajax call to grab 10 static, non-animated gif images from GIPHY API & place on page
     $.ajax({
@@ -39,25 +37,23 @@
         });
  
     // Function when animal button is clicked
-    $("#animal-button").on("click", function(event) {
+    $("#add-animal").on("click", function(event) { 
+    // Preventing the buttons default behavior when clicked (which is submitting a form)
         event.preventDefault();
     // Grabs input from textbox
-        var animalInput = $("#animal-button")
-        animalInput.val().trim();
+        var animalInput = $("#animals-input").val().trim();
         console.log(animalInput)
-
     // Adding animal from the textbox to array
-        animal.push(animal);
-
-    // Calling renderButtons
+        animals.push(animalInput);
+    // Calling renderButtons which handles the processing of animals array
         renderButtons();
     });
 
     // Adding a click event listener to all elements with a class of "an-btn"
-        $(document).on("click", ".an-btn", displayAnimalInfo());
+      //  $(document).on("click", ".an-btn", displayAnimalInfo());
 
     // Calling the renderButtons function to display the intial buttons
-        renderButtons();
+    //    renderButtons();
     }    
 // 4. When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
 
