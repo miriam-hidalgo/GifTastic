@@ -23,10 +23,11 @@
     
 
 // displayAnimalInfo function re-renders the HTML to display the appropriate content
-    function displayAnimalInfo() {
+    $(document).on('click', '.an-btn', function() {
 
     var animal = $(this).attr("data-name");
-    var queryURL = $.get("https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=D6YMYvkMMbqFkOOlI3xHL7AgzASDmIH7&limit=10");
+    console.log(animal);
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + animal + "&api_key=D6YMYvkMMbqFkOOlI3xHL7AgzASDmIH7&limit=10";
     
     //ajax call to grab 10 static, non-animated gif images from GIPHY API & place on page
     $.ajax({
@@ -36,35 +37,37 @@
         console.log(response)
         var results = response.data;
         var giphy = $("<img>");
-        giphy.attr("src=", results[0].images.fixed_height_still)
+        var viewGiphs = giphy.attr("src", results[0].images.fixed_height_still.url)
+        $('#giphy-view').append(viewGiphs)
+        
         });
 
-    // Function when submit button is clicked
-    $("#animal-button").on("click", function(event) { 
-        console.log("button works")
-    // Preventing the buttons default behavior when clicked (which is submitting a form)
-        event.preventDefault();
-    // Grabs input from textbox
-        var animalInput = $("#animals-input").val().trim();
-        console.log(animalInput);
-    // Adding animal from the textbox to array
-        animals.push(animalInput);
-        console.log(animalInput);
-    // Calling renderButtons which handles the processing of animals array
-        renderButtons();
-    });
+
 
     // Adding a click event listener to all elements with a class of "an-btn"
-    $(document).on("click", ".an-btn", displayAnimalInfo());
- 
 
-    // Calling the renderButtons function to display the intial buttons
-    renderButtons();
-    } 
+    // Calling the renderButtons function to display the intial button
+    })
+
+        // Function when button is clicked
+    //$("#animal-button").on("click", function(event) {
+        $(document).on("click", "#add-animal", function(response){
+        // Preventing the buttons default behavior when clicked (which is submitting a form)
+            event.preventDefault();
+        // Grabs input from textbox
+            var animalInput = $("#animals-input").val().trim();
+            console.log(animalInput);
+        // Adding animal from the textbox to array
+            animals.push(animalInput);
+            console.log(animalInput);
+        // Calling renderButtons which handles the processing of animals array
+            renderButtons();
+        });
+        
     //When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
 
     // Under every gif, display its rating (PG, G, so on).
     //    * This data is provided by the GIPHY API.
-    //    * Only once you get images displaying with button presses             should you move on to the next step.
+    //    * Only once you get images displaying with button presses should you move on to the next step.
 
     //  Add a form to your page takes the value from a user input box and adds it into your `topics` array. Then make a function call that takes each topic in the array remakes the buttons on the page.
